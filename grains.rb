@@ -1,23 +1,18 @@
-require 'byebug'
-
 class Grains
-  def self.square number
-    raise ArgumentError unless number > 0 && number < 65
-    holder = 1
-    arr = []
-    (1..number).size.times do
-      arr << holder
-      holder = holder * 2
+  class << self
+    def square number
+      raise ArgumentError unless number > 0 && number < 65
+      complete_squares_array(number).last
     end
-    arr.last
-  end
-  def self.total
-    holder = 1
-    arr = []
-    (1..64).size.times do
-      arr << holder
-      holder = holder * 2
+
+    def total
+      complete_squares_array(64).inject(0, :+)
     end
-    arr.inject(0, :+)
+
+    private
+
+    def complete_squares_array number
+      (1..number-1).inject([1]) { |acc, num| acc << acc.last * 2; acc }
+    end
   end
 end
